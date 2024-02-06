@@ -1,7 +1,7 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "shared";
-import { PostDto } from "./post";
+import { PostDto } from "./postDto";
 
 const POSTS_URL = BASE_URL + "/posts";
 

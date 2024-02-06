@@ -1,7 +1,7 @@
 import { PostsList } from "features/posts-list/ui/posts-list";
 
-export const PostsOverview = () => {
+export const PostsOverviewPage = () => {
   return <PostsList></PostsList>;
 };
 
-export default PostsOverview;
+export default PostsOverviewPage;

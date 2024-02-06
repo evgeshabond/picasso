@@ -1,12 +1,13 @@
-import { postsApi } from "entities";
+import { Post, postsApi } from "entities";
 
 export const PostsList = () => {
   const { data } = postsApi.useGetPostsQuery(undefined);
-  return data?.map((post) => (
-    <div>
-      <div>{post.id}</div>
-      <div>{post.title}</div>
-      <div>{post.body}</div>
+
+  return (
+    <div className="p-2 space-y-2">
+      {data?.map((post) => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
-  ));
+  );
 };
