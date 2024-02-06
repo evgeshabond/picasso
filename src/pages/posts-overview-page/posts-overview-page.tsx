@@ -1,4 +1,4 @@
-import { PostsList } from "features/posts-list/ui/posts-list";
+import { PostsList } from "features";
 
 export const PostsOverviewPage = () => {
   return <PostsList></PostsList>;
