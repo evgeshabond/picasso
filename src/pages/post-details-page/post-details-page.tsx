@@ -1,4 +1,4 @@
-import { PostDetailsConnected } from "features/post-details-connected/ui/post-details-connected";
+import { PostDetailsConnected } from "features";
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
