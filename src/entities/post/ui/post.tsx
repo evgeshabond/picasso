@@ -5,7 +5,7 @@ export const Post = ({ post }: { post: PostDto }) => {
     <div className="flex w-full space-x-3" key={post.id}>
       <div>{post.id}</div>
       <div className="flex-shrink-0 font-bold">{post.title}</div>
-      <div className="text-ellipsis overflow-hidden text-nowrap">{post.body}</div>
+      <div className="line-clamp-1">{post.body}</div>
     </div>
   );
 };
