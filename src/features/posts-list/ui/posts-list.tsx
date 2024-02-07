@@ -2,7 +2,7 @@ import { Post, postsApi } from "entities";
 import { Link } from "react-router-dom";
 
 export const PostsList = () => {
-  const { data } = postsApi.useGetPostsQuery(undefined);
+  const { data } = postsApi.useGetPostsQuery();
 
   return (
     <div className="p-2 space-y-2 max-w-full overflow-hidden">
