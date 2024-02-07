@@ -1,9 +1,9 @@
-import { PostsList } from "features";
+import { PostsListConnected } from "features";
 
 export const PostsOverviewPage = () => {
   return (
     <div className="p-2">
-      <PostsList></PostsList>
+      <PostsListConnected></PostsListConnected>
     </div>
   );
 };

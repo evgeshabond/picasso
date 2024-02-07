@@ -3,7 +3,7 @@ import { Post, postsApi } from "entities";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
-export const PostsList = () => {
+export const PostsListConnected = () => {
   const parentRef = useRef<HTMLDivElement>(null);
   const { data } = postsApi.useGetPostsQuery();
 
@@ -13,7 +13,7 @@ export const PostsList = () => {
     estimateSize: () => 35,
   });
 
-  const getPost = (index: number) => (data ? data[index] : null);
+  const getPost = (index: number) => (data ? data[index] : undefined);
 
   return (
     <>
