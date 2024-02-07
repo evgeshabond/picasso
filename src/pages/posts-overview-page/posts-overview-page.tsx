@@ -1,7 +1,11 @@
 import { PostsList } from "features";
 
 export const PostsOverviewPage = () => {
-  return <PostsList></PostsList>;
+  return (
+    <div className="p-2">
+      <PostsList></PostsList>
+    </div>
+  );
 };
 
 export default PostsOverviewPage;
