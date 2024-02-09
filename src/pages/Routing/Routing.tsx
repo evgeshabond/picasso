@@ -6,10 +6,12 @@ const PostsOverview = lazy(() => import("../posts-overview-page/posts-overview-p
 
 export const Routing = () => {
   return (
-    <Routes>
-      <Route path="/" element={<PostsOverview />} />
-      <Route path="/post/:postId" element={<PostDetailsPage />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+    <div className="p-2">
+      <Routes>
+        <Route path="/" element={<PostsOverview />} />
+        <Route path="/post/:postId" element={<PostDetailsPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </div>
   );
 };

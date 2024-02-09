@@ -1,11 +1,7 @@
 import { PostsListConnected } from "features";
 
 export const PostsOverviewPage = () => {
-  return (
-    <div className="p-2">
-      <PostsListConnected></PostsListConnected>
-    </div>
-  );
+  return <PostsListConnected></PostsListConnected>;
 };
 
 export default PostsOverviewPage;

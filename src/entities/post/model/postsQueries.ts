@@ -5,20 +5,40 @@ import { PostDto } from "./postDto";
 
 const POSTS_URL = BASE_URL + "/posts";
 
-// Define a service using a base URL and expected endpoints
+//  constants required to mock
+const POSTS_COUNT = 100;
+const POSTS_ON_PAGE = 10;
+
 export const postsApi = createApi({
   reducerPath: "postsApi",
   baseQuery: fetchBaseQuery({ baseUrl: POSTS_URL }),
   endpoints: (builder) => ({
-    getPosts: builder.query<PostDto[], void>({
-      query: () => `/`,
+    getPostsByPage: builder.query<{ posts: PostDto[]; hasNextPage: boolean }, number>({
+      query: () => "",
+      transformResponse: async (posts: PostDto[], _meta, page) => {
+        const firstPostIndex = page ? page * POSTS_ON_PAGE : 0;
+        const lastPostIndex = firstPostIndex + 10;
+        const hasNextPage = POSTS_COUNT > POSTS_ON_PAGE * page;
+
+        const postsOnPage = posts.slice(firstPostIndex, lastPostIndex);
+        //  delay to increase service latency
+        await new Promise((res) => setTimeout(res, 500));
+        return { posts: postsOnPage, hasNextPage };
+      },
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+
+      merge: (currentCache, newItems) => {
+        currentCache.hasNextPage = newItems.hasNextPage;
+        currentCache.posts.push(...newItems.posts);
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
     getPostById: builder.query<PostDto, number>({
       query: (id) => `/${id}`,
     }),
   }),
 });
-
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
-// export const { useGetPostsQuery, useGetPostByIdQuery } = postsApi;
