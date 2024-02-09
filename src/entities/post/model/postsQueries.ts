@@ -15,7 +15,7 @@ export const postsApi = createApi({
   endpoints: (builder) => ({
     getPostsByPage: builder.query<{ posts: PostDto[]; hasNextPage: boolean }, number>({
       query: () => "",
-      transformResponse: async (posts: PostDto[], meta, page) => {
+      transformResponse: async (posts: PostDto[], _meta, page) => {
         const firstPostIndex = page ? page * POSTS_ON_PAGE : 0;
         const lastPostIndex = firstPostIndex + 10;
         const hasNextPage = POSTS_COUNT > POSTS_ON_PAGE * page;
