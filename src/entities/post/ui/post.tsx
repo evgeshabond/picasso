@@ -8,6 +8,6 @@ export const Post = ({ post }: { post: PostDto | undefined }) => {
       <div className="line-clamp-1">{post.body}</div>
     </div>
   ) : (
-    <div>NO POST</div>
+    <div>...Loading</div>
   );
 };
