@@ -1,45 +1,27 @@
-import { useVirtualizer } from "@tanstack/react-virtual";
-import { Post, postsApi } from "entities";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Post } from "entities";
+import { useAtomValue } from "jotai";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { lastVisitedPostDetailsIdAtom } from "../model/posts-virtial-scroll-atoms-store";
+import { usePostsVirtualScroll } from "../model/use-posts-virtual-scroll";
 
 export const PostsListConnected = () => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const [page, setPage] = useState(0);
-  const { data, isLoading, isFetching } = postsApi.useGetPostsByPageQuery(page);
-  const dispatch = useDispatch();
 
-  //  reset cache when component unmounts
-  useEffect(() => {
-    return () => {
-      dispatch(postsApi.util.resetApiState());
-    };
-  }, []);
-
-  const rowVirtualizer = useVirtualizer({
-    count: data ? data.posts.length : 0,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 35,
+  const { posts, isLoading, isFetching, rowVirtualizer } = usePostsVirtualScroll({
+    parentRef: parentRef,
   });
 
-  const increasePage = () => {
-    setPage((p) => p + 1);
-  };
-
+  //  try to scroll into last visited postItem if it still in the list
+  const lastVisitedPostDetailsId = useAtomValue(lastVisitedPostDetailsIdAtom);
+  const postToVisitIndex = posts.findIndex((p) => p.id === lastVisitedPostDetailsId);
   useEffect(() => {
-    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
-
-    if (!lastItem || !data || !data.posts || !data.hasNextPage) {
-      return;
+    if (postToVisitIndex > -1) {
+      rowVirtualizer.scrollToIndex(postToVisitIndex);
     }
+  }, [postToVisitIndex, rowVirtualizer]);
 
-    if (lastItem.index >= data.posts.length - 1 && data.hasNextPage && !isFetching && !isLoading) {
-      increasePage();
-    }
-  }, [data, isLoading, rowVirtualizer.getVirtualItems(), isFetching, isLoading]);
-
-  const getPost = (index: number) => (data?.posts ? data.posts[index] : undefined);
+  const getPost = (index: number) => (posts ? posts[index] : undefined);
 
   const renderLoading = <div>Идет загрузка</div>;
 
@@ -59,7 +41,7 @@ export const PostsListConnected = () => {
             height: `${rowVirtualizer.getTotalSize()}px`,
           }}
         >
-          {isLoading
+          {isLoading || posts.length < 1
             ? renderLoading
             : rowVirtualizer.getVirtualItems().map((virtualItem) => (
                 <div
