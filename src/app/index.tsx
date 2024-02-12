@@ -1,4 +1,4 @@
-import { Routing } from "pages/Routing/Routing";
+import { Routing } from "pages/routing/Routing";
 import "./index.css";
 import { withProviders } from "./providers/with-providers";
 
